@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # encoding=utf8
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 import pandas as pd
 import numpy as np
 import re
@@ -118,7 +120,7 @@ def hasUrl(tweet) :
     urlLst = re.findall(r'(https?://[^\s]+)', tweet)
     #print("Bu tweette %d adet url var" % len(urlLst))
 
-    return urlLst;
+    return len(urlLst);
 
 def mostUsedWord(tweet):
     wordLst = tweet.split(" ")
@@ -216,6 +218,7 @@ def main():
     df = pd.DataFrame(data, index=words)
     df2=pd.DataFrame(data2, index=tweet)
 
+
     print('.....')
     """for i, row in df.iterrows():
         row['Word'] = i
@@ -299,6 +302,7 @@ def main():
         if (j == 370):
             break
 
+
     for i in range(len(df2)):
         df2.iloc[i]['Tweet'] = df2.index[i]
         df2.iloc[i]['Tweet has Punct BA'] =hasPunctuation(df2.index[i])
@@ -315,9 +319,148 @@ def main():
         df2.iloc[i]['Length of tweet as # of words'] = len(df2.index[i].split())
         df2.iloc[i]['Length of tweet as # of characters'] = len(df2.iloc[i]['Tweet'])
 
-    print(df2.iloc[0])
 
+
+    #Word Before Features
+    wb_lettercounter = 0
+    wb_capitalcounter = 0
+    wb_allcapitalcounter = 0
+    wb_punctuationcounter= 0
+    wb_emoticoncounter= 0
+    wb_doubleconsanant= 0
+    wb_doublevowel = 0
+    wb_containnumber = 0
+    wb_hashtagcounter=0
+    wb_urlcounter=0
+    #wb_consvowratio = 0
+
+    for j in range(len(df)):
+        if(df.iloc[j]['WB Letter'] == 1):
+            wb_lettercounter += 1
+        elif(df.iloc[j]['WB Is Capital'] == 1):
+            wb_capitalcounter += 1
+        elif(df.iloc[j]['WB Is All Capital'] == 1):
+            wb_allcapitalcounter += 1
+        elif (df.iloc[j]['WB Has Punct BA'] == 1):
+            wb_punctuationcounter += 1
+        elif (df.iloc[j]['WB Has Emot BA'] == 1):
+            wb_emoticoncounter += 1
+        elif (df.iloc[j]['WB Has Double Consonant'] == 1):
+            wb_doubleconsanant += 1
+        elif (df.iloc[j]['WB Has Double Vowel'] == 1):
+            wb_doublevowel += 1
+        #elif (df.iloc[j]['WB Contains Number'] == 1):
+        #    wb_containnumber += 1
+        elif (df.iloc[j]['WB Has Hashtag'] == 1):
+            wb_hashtagcounter += 1
+        elif (df.iloc[j]['WB Has Url'] == 1):
+            wb_urlcounter += 1
+
+    #print("Word Before Results:",wb_lettercounter,wb_capitalcounter, wb_allcapitalcounter, wb_punctuationcounter,wb_emoticoncounter,wb_doubleconsanant,wb_doublevowel,wb_hashtagcounter,wb_urlcounter)
+
+    # Word Features
+    lettercounter = 0
+    capitalcounter = 0
+    allcapitalcounter = 0
+    punctuationcounter = 0
+    emoticoncounter = 0
+    doubleconsanant = 0
+    doublevowel = 0
+    containnumber = 0
+    hashtagcounter = 0
+    urlcounter = 0
+    # wb_consvowratio = 0
+
+    for j in range(len(df)):
+        if (df.iloc[j]['W Letter'] == 1):
+            lettercounter += 1
+        elif (df.iloc[j]['W Is Capital'] == 1):
+            capitalcounter += 1
+        elif (df.iloc[j]['W Is All Capital'] == 1):
+            allcapitalcounter += 1
+        elif (df.iloc[j]['W Has Punct BA'] == 1):
+            punctuationcounter += 1
+        elif (df.iloc[j]['W Has Emot BA'] == 1):
+            emoticoncounter += 1
+        elif (df.iloc[j]['W Has Double Consonant'] == 1):
+            doubleconsanant += 1
+        elif (df.iloc[j]['W Has Double Vowel'] == 1):
+            doublevowel += 1
+        # elif (df.iloc[j]['WB Contains Number'] == 1):
+        #    wb_containnumber += 1
+        elif (df.iloc[j]['W Has Hashtag'] == 1):
+            hashtagcounter += 1
+        elif (df.iloc[j]['W Has Url'] == 1):
+            urlcounter += 1
+
+    #print("\nWord Results:",lettercounter,capitalcounter,allcapitalcounter,punctuationcounter,emoticoncounter,doubleconsanant,doublevowel,hashtagcounter,urlcounter)
+    # Word After Features
+    wa_lettercounter = 0
+    wa_capitalcounter = 0
+    wa_allcapitalcounter = 0
+    wa_punctuationcounter = 0
+    wa_emoticoncounter = 0
+    wa_doubleconsanant = 0
+    wa_doublevowel = 0
+    wa_containnumber = 0
+    wa_hashtagcounter = 0
+    wa_urlcounter = 0
+    #wb_consvowratio = 0
+
+    for j in range(len(df)):
+        if (df.iloc[j]['WA Letter'] == 1):
+            wa_lettercounter += 1
+        elif (df.iloc[j]['WA Is Capital'] == 1):
+            wa_capitalcounter += 1
+        elif (df.iloc[j]['WA Is All Capital'] == 1):
+            wa_allcapitalcounter += 1
+        elif (df.iloc[j]['WA Has Punct BA'] == 1):
+            wa_punctuationcounter += 1
+        elif (df.iloc[j]['WA Has Emot BA'] == 1):
+            wa_emoticoncounter += 1
+        elif (df.iloc[j]['WA Has Double Consonant'] == 1):
+            wa_doubleconsanant += 1
+        elif (df.iloc[j]['WA Has Double Vowel'] == 1):
+            wa_doublevowel += 1
+        # elif (df.iloc[j]['WB Contains Number'] == 1):
+        #    wb_containnumber += 1
+        elif (df.iloc[j]['WA Has Hashtag'] == 1):
+            wa_hashtagcounter += 1
+        elif (df.iloc[j]['WA Has Url'] == 1):
+            wa_urlcounter += 1
+
+    #print("\nWord After Results:",wa_lettercounter, wa_capitalcounter, wa_allcapitalcounter, wa_punctuationcounter, wa_emoticoncounter,wa_doubleconsanant, wa_doublevowel, wa_hashtagcounter, wa_urlcounter)
+
+    tweet_rtcounter = 0
+    tweet_hashtagcounter = 0
+    tweet_mentioncounter = 0
+    tweet_urlcounter = 0
+    tweet_punctuationcounter = 0
+    tweet_emoticoncounter = 0
+    tweet_wordcounter = 0
+    tweet_charcounter = 0
+
+    # Features for Tweet
+    for i in range(len(df2)):
+        if (df2.iloc[i]['Tweet RT Ratio'] == 1):
+            tweet_rtcounter += 1
+        elif (df2.iloc[i]['Tweet has Hashtag'] == 1):
+            tweet_hashtagcounter += 1
+        elif (df2.iloc[i]['Tweet has Mention'] == 1):
+            tweet_mentioncounter += 1
+        elif (df2.iloc[i]['Tweet has Url'] == 1):
+            tweet_urlcounter += 1
+        elif (df2.iloc[i]['Tweet has Punct BA'] == 1):
+            tweet_punctuationcounter += 1
+        elif (df2.iloc[i]['Tweet has Emot BA'] == 1):
+            tweet_emoticoncounter += 1
+        elif (df2.iloc[i]['Length of tweet as # of words'] == 1):
+            tweet_wordcounter += 1
+        elif (df2.iloc[i]['Length of tweet as # of characters'] == 1):
+            tweet_charcounter += 1
+
+
+    # print(df.iloc[100])
     print('.....')
-
-
+    #print("\nTweet Results:",tweet_rtcounter,tweet_hashtagcounter,tweet_mentioncounter,tweet_urlcounter,tweet_punctuationcounter,tweet_emoticoncounter,tweet_wordcounter,tweet_charcounter)
 main()
